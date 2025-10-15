@@ -27,15 +27,27 @@ pip install transformers==4.57.0
 pip install --no-deps trl==0.22.2
 ```
 
+# Experimental environment
+Graphics Card: RTX 4090 24GB; CPU: 12 cores; Memory: 60GB; Model: Intel(R) Xeon(R) Gold 6430
+
 # Prepare the data
-A. Download 3Rscan and 3DSSG-Sub Annotation, you can follow [3DSSG](https://github.com/ShunChengWu/3DSSG#preparation). Alternatively, you can download the dataset as follows:
-```bash
-# download dataset. One thing to note is that you need to manually change the paths for the training and validation sets.
-python dl_data.py
-# unzip dataset
-python unzip.py
+Download Dataset for fine-tuning, you can follow [Shenzhen Street Map](https://drive.google.com/file/d/1GYjf3sd72etOM--jAN5hjeQqVX0jkvs6/view?usp=drive_link). 
+
+# Fine-tuning Process
+A.  You should arrange the file location like this
 ```
-B. Generate 2D Multi View Image
+data
+  Images
+    2190_0900570012210302101537052GH_113.910295198000000_22.535329938899999_0_0.jpg
+    ...
+  Train_files
+    2190_0900570012210302101537052GH_113.910295198000000_22.535329938899999_0_0.json
+    ...
+...  
+      
+```
+
+B. Run train.py
 ```bash
 # you should motify the path in pointcloud2image.py into your own path
 python data/pointcloud2image.py
