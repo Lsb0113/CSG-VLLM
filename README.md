@@ -49,32 +49,19 @@ data
 
 B. Run train.py
 ```bash
-# you should motify the path in pointcloud2image.py into your own path
-python data/pointcloud2image.py
+python FineTuning_train.py
 ```
 
-C. You should arrange the file location like this
-```
-data
-  3DSSG_subset
-    relations.txt
-    classes.txt
-    
-  3RScan
-    0a4b8ef6-a83a-21f2-8672-dce34dd0d7ca
-      multi_view
-      labels.instances.align.annotated.v2.ply
-    ...  
-      
-```
+C. Inference your model 
 
-D. Train your own clip adapter 
-
-``` python clip_adapter/main.py ```
+``` python FineTuning_inference.py ```
 
 or just use the checkpoint 
 
 ``` clip_adapter/checkpoint/origin_mean.pth ```
+
+D. You can also directly use our finely-tuned large model. You can download from [Scene Graph Extraction LM]([https://drive.google.com/file/d/1GYjf3sd72etOM--jAN5hjeQqVX0jkvs6/view?usp=drive_link](https://huggingface.co/SHIBIN99/CSG-VLLM)). 
+
 
 # Run Code
 Before running the main file, you can modify some of the experimental settings to suit your needs.
