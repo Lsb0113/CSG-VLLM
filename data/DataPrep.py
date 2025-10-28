@@ -43,11 +43,10 @@ instruction = f"""
     """
 
 datasets = {}
-images_path = 'nanshan/nanshan_m2f_cityscape/nanshan_seg_jpeg'
+images_path = 'nanshan/imgs'
 images_list = os.listdir(images_path)
 
-answer_json_path = 'nanshan/nanshan_seg/js_eng_single_files'
-
+answer_json_path = 'nanshan/js_files'
 
 def convert_to_conversation(instruction, image_path, answer):
     conversation = [
@@ -63,14 +62,6 @@ def convert_to_conversation(instruction, image_path, answer):
     ]
     return {"messages": conversation}
 
-# conversation_list = []
-# for i in images_list:
-#     name = i[:-4]
-#     image_path = os.path.join(images_path, i)
-#     # img = Image.open(image_path)
-#     with open(os.path.join(answer_json_path, name + '.json'), 'r',encoding='utf-8') as f:
-#         answer = json.load(f)
-#     conversation_list.append(convert_to_conversation(instruction, image_path, str(answer)))
 
 img_list=[]
 text_list=[]
@@ -88,21 +79,17 @@ data = {
     "text": text_list
 }
 
-# 构建数据集
+# Build the dataset
 dataset = Dataset.from_dict(data)
 
-# 查看数据集信息（应显示 features: ['image', 'text'], num_rows: 68686）
+# View the dataset information
 print(dataset)
 
 dataset = dataset.cast_column("image", Image())
 
-# 按 8:2 划分训练集和验证集
+# Divide the training set and validation set in the ratio of 8:2
 dataset_split = dataset.train_test_split(test_size=0.2)
-print(dataset_split)  # 输出包含 train 和 test 两个子集
+print(dataset_split) 
 
-# # 保存数据集（推荐用 parquet 格式，高效存储图像路径和文本）
-# dataset.save_to_disk("./SFTData")  # 保存到文件夹
-#
-# # 后续加载
-# from datasets import load_from_disk
-# loaded_dataset = load_from_disk("./SFTData")
+# Save the dataset
+dataset.save_to_disk("./SFTData")
