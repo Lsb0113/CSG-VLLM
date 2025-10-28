@@ -1,0 +1,1 @@
+You can download the large model to your local machine and save it in this folder.
