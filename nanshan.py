@@ -15,9 +15,8 @@ class config:
     use_seg_images:bool=False
     use_scene_graph:bool=False
     temperature:float=0.5
-    top_p:float=0.7
-    max_text_tokens:int = 1024
-    max_scene_graph_tokens: int = 512
+    min_p:float=0.1
+    max_new_tokens:int = 1024
 
 
 model, tokenizer = FastVisionModel.from_pretrained(
@@ -25,6 +24,7 @@ model, tokenizer = FastVisionModel.from_pretrained(
     load_in_4bit = True, # Use 4bit to reduce memory use. False for 16bit LoRA.
     use_gradient_checkpointing = "unsloth", # True or "unsloth" for long context
 )
+FastVisionModel.for_inference(model) 
 
 class SavingTextStreamer(TextStreamer):
     def __init__(self, tokenizer, skip_prompt=False):
@@ -35,7 +35,7 @@ class SavingTextStreamer(TextStreamer):
         # super().on_finalized_text(text, stream_end)
         self.generated_text += text
         
-def invoke_with_image(input_text, img_path=None):
+def invoke_with_image(input_text,congfig,img_path):
     image=Image.open(img_path)
     inputs = tokenizer(
     image,
@@ -46,8 +46,8 @@ def invoke_with_image(input_text, img_path=None):
     
     text_streamer = SavingTextStreamer(tokenizer, skip_prompt=True)
     
-    _ = model.generate(**inputs, streamer = text_streamer, max_new_tokens = 1024,
-                       use_cache = True, temperature = 0.5, min_p = 0.1)
+    _ = model.generate(**inputs, streamer = text_streamer, max_new_tokens = config.max_new_tokens,
+                       use_cache = True, temperature = config.temperature, min_p = config.min_p)
     str_json=text_streamer.generated_text
     return str_json
 
@@ -121,10 +121,10 @@ if __name__ == "__main__":
         sg_4 = None
         
         try:
-            sg_1 = json.loads(extract_nested_braces(invoke_with_image(query=template_str, images_dict=os.path.join(imgs_path, img_view_1)))
-            sg_2 = json.loads(extract_nested_braces(invoke_with_image(query=template_str, images_dict=os.path.join(imgs_path, img_view_2)))
-            sg_3 = json.loads(extract_nested_braces(invoke_with_image(query=template_str, images_dict=os.path.join(imgs_path, img_view_3)))
-            sg_4 = json.loads(extract_nested_braces(invoke_with_image(query=template_str, images_dict=os.path.join(imgs_path, img_view_4)))
+            sg_1 = json.loads(extract_nested_braces(invoke_with_image(query=template_str, congfig, images_dict=os.path.join(imgs_path, img_view_1)))
+            sg_2 = json.loads(extract_nested_braces(invoke_with_image(query=template_str, congfig, images_dict=os.path.join(imgs_path, img_view_2)))
+            sg_3 = json.loads(extract_nested_braces(invoke_with_image(query=template_str, congfig, images_dict=os.path.join(imgs_path, img_view_3)))
+            sg_4 = json.loads(extract_nested_braces(invoke_with_image(query=template_str, congfig, images_dict=os.path.join(imgs_path, img_view_4)))
         except Exception as e:
             print(f"An error occurred: {e}")
             err_list.append(count)
@@ -144,4 +144,5 @@ if __name__ == "__main__":
             json.dump(data, f, ensure_ascii=False, indent=4)
         count += 1
     print(err_list)
+
 
