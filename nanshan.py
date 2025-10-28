@@ -97,6 +97,17 @@ if __name__ == "__main__":
     ## Workflow
         - Without any explanations or prefixes, directly output the JSON content that meets the format requirements (ensure there are no syntax errors and it can be parsed directly).
     """
+
+    messages = [
+    {"role": "user", "content": [
+        {"type": "image"},
+        {"type": "text", "text": template_str}
+    ]}
+]
+    
+input_text = tokenizer.apply_chat_template(messages, add_generation_prompt = True)
+
+    input_text = tokenizer.apply_chat_template(messages, add_generation_prompt = True)
     
     count = 0
     img_js_path = 'Datasets/nanshan/js_files/'
@@ -144,5 +155,6 @@ if __name__ == "__main__":
             json.dump(data, f, ensure_ascii=False, indent=4)
         count += 1
     print(err_list)
+
 
 
