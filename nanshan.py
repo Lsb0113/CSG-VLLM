@@ -105,8 +105,6 @@ if __name__ == "__main__":
     ]}
 ]
     
-input_text = tokenizer.apply_chat_template(messages, add_generation_prompt = True)
-
     input_text = tokenizer.apply_chat_template(messages, add_generation_prompt = True)
     
     count = 0
@@ -155,6 +153,7 @@ input_text = tokenizer.apply_chat_template(messages, add_generation_prompt = Tru
             json.dump(data, f, ensure_ascii=False, indent=4)
         count += 1
     print(err_list)
+
 
 
 
