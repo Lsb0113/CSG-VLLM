@@ -1,0 +1,19 @@
+# Core dependencies (all scripts)
+pillow>=10.0
+numpy>=1.24
+pandas>=2.0
+tqdm>=4.66
+
+# Zhipu AI (GLM) SDK — required for all API-based generation / evaluation scripts
+zai>=0.1.0
+
+# Local Qwen3-VL model — required for SceneGraph_Generation/LocalModel/*
+torch>=2.2
+transformers>=4.44
+accelerate>=0.33
+
+# Optional: GRPO fine-tuning (FineTuning_train.py / FineTuning_inference.py)
+# unsloth
+# trl
+# datasets
+# vllm

@@ -1,0 +1,31 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# ---- Jupyter (converted to .py; notebooks are not tracked) ----
+.ipynb_checkpoints/
+*.ipynb
+
+# ---- Data (large files, not tracked) ----
+Datasets/
+data/
+
+# ---- Outputs / logs / experiments ----
+Outputs/
+outputs/
+QA_experiments/
+logs/
+*.log
+
+# ---- Secrets / environment ----
+.env
+*.key
+*.pem
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
+desktop.ini
